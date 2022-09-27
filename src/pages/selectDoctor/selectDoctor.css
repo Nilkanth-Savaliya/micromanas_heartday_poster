@@ -1,0 +1,101 @@
+.mainLogo img {
+  width: 45%;
+  margin: 0 auto;
+}
+.formData {
+  padding: 0 15px;
+}
+.formRow {
+  display: grid;
+  padding-bottom: 10px;
+}
+label {
+  padding-bottom: 5px;
+}
+.formRow input {
+  height: 38px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 2px 8px;
+}
+.fileLogo {
+  width: 70px;
+}
+.formRow .customImageInput {
+  color: transparent;
+  opacity: 1;
+  height: 48px;
+}
+.customLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+  margin: 15px auto 0;
+  box-shadow: 2px 2px 8px 2px #033a7269;
+  background-color: rgba(255, 255, 255, 50%);
+  width: 150px;
+  justify-content: space-between;
+  height: 130px;
+}
+.customImageInput::before {
+  content: "Choose Image";
+  display: block;
+  color: #000;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 2px 2px 4px #00000061;
+  padding: 7px 8px;
+  outline: none !important;
+  white-space: nowrap;
+  font-weight: 700;
+  font-size: 14px;
+  font-family: roboto;
+  width: 36%;
+  margin: 8px auto;
+  text-align: center;
+}
+.btnSubmit {
+  padding: 16px 20px;
+  border-radius: 6px;
+  margin: 0 auto;
+  color: white;
+  background-color: #e55c5a;
+  opacity: 0.9;
+  width: 55%;
+  border: none;
+  font-size: 18px;
+  font-weight: 700;
+}
+.canvas {
+  position: relative;
+  display: none;
+}
+.imageOverview {
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+}
+.imageOverview img {
+  width: 80%;
+}
+.downloadBtn {
+  position: absolute;
+  right: 12%;
+  top: 7px;
+  color: #e55c5a;
+  background: #fff;
+  padding: 3px;
+  border-radius: 100px;
+  border: 5px double #e55c5a;
+}
+.imgName {
+  padding: 8px 8px;
+  box-shadow: 2px 2px 4px #00000061;
+  font-weight: 600;
+}
+.croppedImage {
+  z-index: 1;
+}

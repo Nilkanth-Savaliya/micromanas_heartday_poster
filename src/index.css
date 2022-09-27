@@ -1,0 +1,42 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #fdf1f1 !important;
+}
+.mainDiv {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* .mainSubDivSpacing {
+  padding: 0 15px;
+  width: 100%;
+  position: relative;
+} */
+.backBtn {
+  position: absolute;
+  left: 4%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.mainSubDiv {
+  /* display: flex;
+  flex-direction: column;
+  margin: 66px 0;
+  margin-bottom: 90px; */
+  max-width: 425px;
+  width: 100%;
+  background-image: url("/public/Heart\ day\ Background.png") !important;
+  background-repeat: no-repeat !important;
+  background-size: contain !important;
+  min-height: 100vh !important;
+  /* background: center; */
+  /* position: relative;
+  height: fit-content; */
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
