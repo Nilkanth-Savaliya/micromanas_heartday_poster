@@ -27,7 +27,7 @@ body {
   margin-bottom: 90px; */
   max-width: 425px;
   width: 100%;
-  background-image: url("/public/Heart\ day\ Background.png") !important;
+  background-image: url("/public/worldHeartDay.png") !important;
   background-repeat: no-repeat !important;
   background-size: contain !important;
   min-height: 100vh !important;

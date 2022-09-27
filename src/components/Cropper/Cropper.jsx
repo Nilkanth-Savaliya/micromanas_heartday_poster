@@ -104,7 +104,7 @@ export const Crop = ({ file, fromChild }) => {
               preview=".img-preview"
               viewMode={1}
               initialAspectRatio={1}
-              aspectRatio={1.7}
+              aspectRatio={1}
               // minCropBoxHeight={250}
               // minCropBoxWidth={202}
               background={false}

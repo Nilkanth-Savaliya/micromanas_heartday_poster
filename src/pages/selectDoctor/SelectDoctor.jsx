@@ -1,17 +1,14 @@
-import React, { useState, useMemo, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./selectDoctor.css";
 import { Formik, Field, Form } from "formik";
 import ImageFormField from "../../components/ImageFormField/ImageFormField";
-import { Flex, FormControl, FormLabel, HStack, Spacer } from "@chakra-ui/react";
-import SelectFormField from "../../components/selectFormField/SelectFormField";
-import { get } from "lodash";
 import { frameData } from "../../frameData";
 import { Stage, Layer, Image, Text } from "react-konva";
 import { Spinner } from "../../components/spinner/Spinner";
 import { HiDownload } from "react-icons/hi";
 import * as Yup from "yup";
 import axios from "axios";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 const SelectDoctor = () => {
   const [bgImage, setBgImage] = useState();
@@ -22,17 +19,63 @@ const SelectDoctor = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const stageRef = useRef();
+  const dpRef = useRef();
+  const thirdFrameRef = useRef();
+  const fourthFrameRef = useRef();
+  const fifthFrameRef = useRef();
   const [searchParams, setSearchParams] = useSearchParams();
   const [data, setData] = useState();
   const [fontSize, setFontSize] = useState();
+  const [frame2, setFrame2] = useState();
+  const [frame3, setFrame3] = useState();
+  const [frame4, setFrame4] = useState();
+  const [frame5, setFrame5] = useState();
+  const [frame2Overview, setFrame2Overview] = useState();
+  const [frame3Overview, setFrame3Overview] = useState();
+  const [frame4Overview, setFrame4Overview] = useState();
+  const [frame5Overview, setFrame5Overview] = useState();
 
   useEffect(() => {
     const userbg = new window.Image();
     userbg.src = userImage;
     userbg.onload = () => {
       setUserImg(userbg);
-      // console.log('default userImage');
-      // console.log(userbg);
+      
+    };
+
+    const bg = new window.Image();
+    bg.src = frameData.firstFrame.frameImage;
+    bg.crossOrigin = "Anonymous";
+    bg.onload = () => {
+      setBgImage(bg);
+    };
+
+    const bg2 = new window.Image();
+    bg2.src = frameData.dp.frameImage;
+    bg2.crossOrigin = "Anonymous";
+    bg2.onload = () => {
+      setFrame2(bg2);
+    };
+
+    const bg3 = new window.Image();
+    bg3.src = frameData.thirdFrame.frameImage;
+    bg3.crossOrigin = "Anonymous";
+    bg3.onload = () => {
+      setFrame3(bg3);
+    };
+
+    const bg4 = new window.Image();
+    bg4.src = frameData.fourthFrame.frameImage;
+    bg4.crossOrigin = "Anonymous";
+    bg4.onload = () => {
+      setFrame4(bg4);
+    };
+
+    const bg5 = new window.Image();
+    bg5.src = frameData.fifthFrame.frameImage;
+    bg5.crossOrigin = "Anonymous";
+    bg5.onload = () => {
+      setFrame5(bg5);
     };
   }, [userImage]);
 
@@ -47,41 +90,35 @@ const SelectDoctor = () => {
     let tempData = {
       doctor_name: values.doctorName,
       user_image: values.image,
-      language: values.language,
-      address: values.doctorAddress,
-      division: "Microlab",
-      rbm_name: searchParams.get("first"),
-      abm_name: searchParams.get("second"),
-      bo_name: searchParams.get("third"),
-      hq_name: searchParams.get("fourth"),
+      message: values.doctorMessage,
     };
 
     console.log(values, values);
     const formData = new FormData();
-    // for (let key in tempData) {
-    //     formData.append(key, tempData[key]);
-    // }
-    // axios({
-    //     url: "http://65.0.77.129:4000/adduserdata",
-    //     method: "POST",
-    //     data: formData,
-    //     headers: {
-    //         "Content-Type": "multipart/form-data",
-    //         "Access-Control-Allow-Origin": "*",
-    //         "Access-Control-Allow-Headers": "*",
-    //     },
+    for (let key in tempData) {
+        formData.append(key, tempData[key]);
+    }
+    axios({
+        url: "http://65.0.77.129:4013/adduserdata",
+        method: "POST",
+        data: formData,
+        headers: {
+            "Content-Type": "multipart/form-data",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "*",
+        },
 
-    // })
-    //     .then((data) => {
-    //         console.log(data);
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     });
+    })
+        .then((data) => {
+            console.log(data);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
   };
 
   const imageToBase = () => {
-    const defaultUrl = frameData.imageField[0].default;
+    const defaultUrl = frameData.firstFrame.imageField[0].default;
     // console.log(defaultUrl);
     fetch(defaultUrl)
       .then((res) => res.blob())
@@ -110,32 +147,6 @@ const SelectDoctor = () => {
     reader.readAsDataURL(files);
   };
 
-  const languageOption = useMemo(() => {
-    return [
-      { value: "English", label: "English" },
-      { value: "Gujarati", label: "Gujarati" },
-      { value: "Hindi", label: "Hindi" },
-      { value: "Kannada", label: "Kannada" },
-      { value: "Malayalam", label: "Malayalam" },
-      { value: "Marathi", label: "Marathi" },
-      { value: "Panjabi", label: "Panjabi" },
-      { value: "Oriya", label: "Oriya" },
-      { value: "Tamil", label: "Tamil" },
-      { value: "Telugu", label: "Telugu" },
-    ];
-  }, []);
-
-  const changeBg = async (e) => {
-    const tempImage = await frameData.frameImage.find(
-      (data) => data.language == e
-    );
-    const bg = new window.Image();
-    bg.src = tempImage.image;
-    bg.crossOrigin = "Anonymous";
-    bg.onload = () => {
-      setBgImage(bg);
-    };
-  };
   const download = (uri, name) => {
     var link = document.createElement("a");
     link.download = name;
@@ -147,22 +158,23 @@ const SelectDoctor = () => {
 
   const handleExport = () => {
     const uri = stageRef.current.toDataURL();
+    const uri2 = dpRef.current.toDataURL();
+    const uri3 = thirdFrameRef.current.toDataURL();
+    const uri4 = fourthFrameRef.current.toDataURL();
+    const uri5 = fifthFrameRef.current.toDataURL();
     // console.log(uri);
     setImageOverview(uri);
+    setFrame2Overview(uri2);
+    setFrame3Overview(uri3);
+    setFrame4Overview(uri4);
+    setFrame5Overview(uri5);
     setShowResults(true);
     setIsLoading(false);
-    // fetch(uri)
-    // .then(res => res.blob())
-    // .then(blob => {
-    //     const file = new File([blob], name,{ type: "image/png" });
-    //     console.log(file);
-    // })
-    //download(uri,`${name}.png`);
+    
   };
   const validationSchema = Yup.object().shape({
     doctorName: Yup.string().required("Required"),
-    doctorAddress: Yup.string().required("Required"),
-    language: Yup.string().required("Required"),
+    doctorMessage: Yup.string().required("Required"),
   });
   useEffect(() => {
     const searchId = {
@@ -173,11 +185,9 @@ const SelectDoctor = () => {
     };
     setData(searchId);
   }, []);
-  // if(doctorData?.doctorAddress?.length){
-  //     setDynamicFont(200)
-  // }
+  
   useEffect(() => {
-    let textLength = doctorData?.doctorAddress?.length; 
+    let textLength = doctorData?.doctorMessage?.length; 
     console.log(textLength);
     switch (true) {
       case textLength >= 1 && textLength < 30:
@@ -218,47 +228,20 @@ const SelectDoctor = () => {
         <div>
           <div className="mainLogo">
             <img src="/headerlogo.png" alt="logo" />
-            <Link to="/" state={{ data: data }} className="backBtn">
-              <IoIosArrowBack size={32} color="#000" />
-            </Link>
+            
           </div>
           <div className="formData">
             <Formik
               initialValues={{
                 doctorName: "",
-                doctorAddress: "",
+                doctorMessage: "",
                 image: "",
-                language: "",
               }}
               validationSchema={validationSchema}
               onSubmit={handleSubmit}
             >
               {({ setFieldValue, values, errors, touched }) => (
                 <Form>
-                  <FormControl isRequired my={3} style={{zIndex: '11'}} >
-                    <Flex width="100%">
-                      <HStack>
-                        {/* <FormLabel mb={1}>Select Language : </FormLabel> */}
-                        <label htmlFor="language">Select Language</label>
-                        <Spacer></Spacer>
-                        {/* <p style={{ color: "red" }}>{errors.speciality}</p> */}
-                      </HStack>
-                    </Flex>
-                    <SelectFormField 
-                      options={languageOption}
-                      value={get(values, "language")}
-                      required={false}
-                      name={"language"}
-                      fieldName={"language"}
-                      placeholder={"Select a Language :"}
-                      error={undefined}
-                      onChange={(data) => changeBg(data)}
-                    />
-                  </FormControl>
-                  {errors.language && touched.language ? (
-                    <div style={{ color: "red" }}>{errors.language}</div>
-                  ) : null}
-
                   <div className="formRow">
                     <label htmlFor="doctorName">Name of Doctor</label>
                     <Field
@@ -271,16 +254,16 @@ const SelectDoctor = () => {
                     <div style={{ color: "red" }}>{errors.doctorName}</div>
                   ) : null}
                   <div className="formRow">
-                    <label htmlFor="doctorAddress">Address of Doctor</label>
+                    <label htmlFor="doctorMessage">Enter a Message</label>
                     <Field
-                      name="doctorAddress"
+                      name="doctorMessage"
                       type="text"
-                      // as='textarea'
-                      placeholder="Enter Doctor Address"
+                      as='textarea'
+                      placeholder="Enter a Message"
                     />
                   </div>
-                  {errors.doctorAddress && touched.doctorAddress ? (
-                    <div style={{ color: "red" }}>{errors.doctorAddress}</div>
+                  {errors.doctorMessage && touched.doctorMessage ? (
+                    <div style={{ color: "red" }}>{errors.doctorMessage}</div>
                   ) : null}
                   <div className="formRow">
                     <label htmlFor="image" className="customLabel">
@@ -290,7 +273,6 @@ const SelectDoctor = () => {
                         onSuccess={({ file: file }) => {
                           if (file) setFieldValue("image", file);
                         }}
-                        // error={errors.image}
                       />
                     </label>
                   </div>
@@ -315,17 +297,8 @@ const SelectDoctor = () => {
               </div>
             </div>
             <div className="imageOverview">
-              <div
-                style={{
-                  width: "100%",
-                  position: "relative",
-                }}
-              >
-                <img
-                  src={imageOverview}
-                  alt="output"
-                  style={{ margin: "0 auto" }}
-                />
+              <div className="imageBox">
+                <img src={imageOverview} alt="output" style={{ margin: "0 auto" }}/>
                 <button
                   onClick={() =>
                     download(
@@ -333,8 +306,59 @@ const SelectDoctor = () => {
                       `${doctorData.doctorName}${Date.now()}.png`
                     )
                   }
-                  className="downloadBtn"
-                >
+                  className="downloadBtn">
+                  <HiDownload size={30} />
+                </button>
+              </div>
+              <div className="imageBox">
+                <img src={frame2Overview} alt="output" style={{ margin: "0 auto" }}/>
+                <button
+                  onClick={() =>
+                    download(
+                      frame2Overview,
+                      `${doctorData.doctorName}${Date.now()}.png`
+                    )
+                  }
+                  className="downloadBtn">
+                  <HiDownload size={30} />
+                </button>
+              </div>
+              <div className="imageBox">
+                <img src={frame3Overview} alt="output" style={{ margin: "0 auto" }}/>
+                <button
+                  onClick={() =>
+                    download(
+                      frame3Overview,
+                      `${doctorData.doctorName}${Date.now()}.png`
+                    )
+                  }
+                  className="downloadBtn">
+                  <HiDownload size={30} />
+                </button>
+              </div>
+              <div className="imageBox">
+                <img src={frame4Overview} alt="output" style={{ margin: "0 auto" }}/>
+                <button
+                  onClick={() =>
+                    download(
+                      frame4Overview,
+                      `${doctorData.doctorName}${Date.now()}.png`
+                    )
+                  }
+                  className="downloadBtn">
+                  <HiDownload size={30} />
+                </button>
+              </div>
+              <div className="imageBox">
+                <img src={frame5Overview} alt="output" style={{ margin: "0 auto" }}/>
+                <button
+                  onClick={() =>
+                    download(
+                      frame5Overview,
+                      `${doctorData.doctorName}${Date.now()}.png`
+                    )
+                  }
+                  className="downloadBtn">
                   <HiDownload size={30} />
                 </button>
               </div>
@@ -342,26 +366,22 @@ const SelectDoctor = () => {
           </>
         )}
         <div className="canvas">
-          {frameData && doctorData && (
-            <Stage
-              width={frameData.width}
-              height={frameData.height}
-              style={{ zoom: "0.1" }}
-            >
+          {frameData && doctorData && frameData.firstFrame && (
+            <Stage width={frameData.firstFrame.width} height={frameData.firstFrame.height} style={{ zoom: "0.1" }}>
               <Layer ref={stageRef}>
                 <Image
                   image={userImg}
-                  x={frameData.imageField[0].left}
-                  y={frameData.imageField[0].top}
-                  width={frameData.imageField[0].width}
-                  height={frameData.imageField[0].height}
+                  x={frameData.firstFrame.imageField[0].left}
+                  y={frameData.firstFrame.imageField[0].top}
+                  width={frameData.firstFrame.imageField[0].width}
+                  height={frameData.firstFrame.imageField[0].height}
                 />
                 <Image
                   image={bgImage}
-                  width={frameData.width}
-                  height={frameData.height}
+                  width={frameData.firstFrame.width}
+                  height={frameData.firstFrame.height}
                 />
-                {frameData.textField.map((value, i) => {
+                {frameData.firstFrame.textField.map((value, i) => {
                   return (
                     <Text
                       text={doctorData[value.field] || value.default}
@@ -379,7 +399,78 @@ const SelectDoctor = () => {
               </Layer>
             </Stage>
           )}
-          {/* <button onClick={() =>handleExport(`${doctorData.doctorName}`)} className='downloadBtn' > <HiDownload size={30}/></button> */}
+          {frameData && doctorData && frameData.dp &&
+            <Stage width={frameData.dp.width} height={frameData.dp.height} style={{ zoom: "0.1" }}>
+              <Layer ref={dpRef}>
+              <Image
+                  image={userImg}
+                  x={frameData.dp.imageField[0].left}
+                  y={frameData.dp.imageField[0].top}
+                  width={frameData.dp.imageField[0].width}
+                  height={frameData.dp.imageField[0].height}
+                />
+                <Image
+                  image={frame2}
+                  width={frameData.dp.width}
+                  height={frameData.dp.height}
+                />
+              </Layer>
+            </Stage>
+          }
+          {frameData && doctorData && frameData.thirdFrame &&
+            <Stage width={frameData.thirdFrame.width} height={frameData.thirdFrame.height} style={{ zoom: "0.1" }}>
+              <Layer ref={thirdFrameRef}>
+              <Image
+                  image={userImg}
+                  x={frameData.thirdFrame.imageField[0].left}
+                  y={frameData.thirdFrame.imageField[0].top}
+                  width={frameData.thirdFrame.imageField[0].width}
+                  height={frameData.thirdFrame.imageField[0].height}
+                />
+                <Image
+                  image={frame3}
+                  width={frameData.thirdFrame.width}
+                  height={frameData.thirdFrame.height}
+                />
+              </Layer>
+            </Stage>
+          }
+          {frameData && doctorData && frameData.fourthFrame &&
+            <Stage width={frameData.fourthFrame.width} height={frameData.fourthFrame.height} style={{ zoom: "0.1" }}>
+            <Layer ref={fourthFrameRef}>
+            <Image
+                image={userImg}
+                x={frameData.fourthFrame.imageField[0].left}
+                y={frameData.fourthFrame.imageField[0].top}
+                width={frameData.fourthFrame.imageField[0].width}
+                height={frameData.fourthFrame.imageField[0].height}
+              />
+              <Image
+                image={frame4}
+                width={frameData.fourthFrame.width}
+                height={frameData.fourthFrame.height}
+              />
+            </Layer>
+          </Stage>
+          }
+          {frameData && frameData.fifthFrame && doctorData &&
+            <Stage width={frameData.fifthFrame.width} height={frameData.fifthFrame.height} style={{ zoom: "0.1" }}>
+            <Layer ref={fifthFrameRef}>
+            <Image
+                image={userImg}
+                x={frameData.fifthFrame.imageField[0].left}
+                y={frameData.fifthFrame.imageField[0].top}
+                width={frameData.fifthFrame.imageField[0].width}
+                height={frameData.fifthFrame.imageField[0].height}
+              />
+              <Image
+                image={frame5}
+                width={frameData.fifthFrame.width}
+                height={frameData.fifthFrame.height}
+              />
+            </Layer>
+          </Stage>
+          }
         </div>
       </div>
     </>

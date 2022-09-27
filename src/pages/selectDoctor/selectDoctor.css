@@ -72,11 +72,12 @@ label {
   display: none;
 }
 .imageOverview {
-  height: 80vh;
+  /* height: 80vh; */
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #fff;
+  flex-direction: column;
 }
 .imageOverview img {
   width: 80%;
@@ -98,4 +99,14 @@ label {
 }
 .croppedImage {
   z-index: 1;
+}
+.formRow textarea{
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 2px 8px;
+}
+.imageBox{
+  position: relative;
+  width: 70%;
+  margin-bottom: 50px;
 }
