@@ -44,7 +44,7 @@ export const frameData = {
     height: 4962 / 2,
     textField: [
        {
-        field: "doctorMessage",
+        field: "customMessage",
         align: "left",
         fontSize: 400 / 2,
         left: 100 / 2,
@@ -90,7 +90,7 @@ export const frameData = {
       {
       field: "doctorName",
       left: 1500 / 2,
-      top: 2440 / 2,
+      top: 2315 / 2,
       width: 2150 / 2,
       align: "center",
       fontSize: 50,
