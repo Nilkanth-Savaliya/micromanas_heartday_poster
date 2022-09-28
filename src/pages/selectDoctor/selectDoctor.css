@@ -1,3 +1,7 @@
+.mainLogo{
+  position: relative;
+  padding-top: 15px;
+}
 .mainLogo img {
   width: 45%;
   margin: 0 auto;

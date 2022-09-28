@@ -94,27 +94,27 @@ const SelectDoctor = () => {
     };
 
     console.log(values, values);
-    const formData = new FormData();
-    for (let key in tempData) {
-        formData.append(key, tempData[key]);
-    }
-    axios({
-        url: "http://65.0.77.129:4013/adduserdata",
-        method: "POST",
-        data: formData,
-        headers: {
-            "Content-Type": "multipart/form-data",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers": "*",
-        },
+  //   const formData = new FormData();
+  //   for (let key in tempData) {
+  //       formData.append(key, tempData[key]);
+  //   }
+  //   axios({
+  //       url: "http://65.0.77.129:4013/adduserdata",
+  //       method: "POST",
+  //       data: formData,
+  //       headers: {
+  //           "Content-Type": "multipart/form-data",
+  //           "Access-Control-Allow-Origin": "*",
+  //           "Access-Control-Allow-Headers": "*",
+  //       },
 
-    })
-        .then((data) => {
-            console.log(data);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+  //   })
+  //       .then((data) => {
+  //           console.log(data);
+  //       })
+  //       .catch((err) => {
+  //           console.log(err);
+  //       });
   };
 
   const imageToBase = () => {
@@ -158,16 +158,16 @@ const SelectDoctor = () => {
 
   const handleExport = () => {
     const uri = stageRef.current.toDataURL();
-    const uri2 = dpRef.current.toDataURL();
+    // const uri2 = dpRef.current.toDataURL();
     const uri3 = thirdFrameRef.current.toDataURL();
     const uri4 = fourthFrameRef.current.toDataURL();
-    const uri5 = fifthFrameRef.current.toDataURL();
+    // const uri5 = fifthFrameRef.current.toDataURL();
     // console.log(uri);
     setImageOverview(uri);
-    setFrame2Overview(uri2);
+    // setFrame2Overview(uri2);
     setFrame3Overview(uri3);
     setFrame4Overview(uri4);
-    setFrame5Overview(uri5);
+    // setFrame5Overview(uri5);
     setShowResults(true);
     setIsLoading(false);
     
@@ -310,7 +310,7 @@ const SelectDoctor = () => {
                   <HiDownload size={30} />
                 </button>
               </div>
-              <div className="imageBox">
+              {/* <div className="imageBox">
                 <img src={frame2Overview} alt="output" style={{ margin: "0 auto" }}/>
                 <button
                   onClick={() =>
@@ -322,7 +322,7 @@ const SelectDoctor = () => {
                   className="downloadBtn">
                   <HiDownload size={30} />
                 </button>
-              </div>
+              </div> */}
               <div className="imageBox">
                 <img src={frame3Overview} alt="output" style={{ margin: "0 auto" }}/>
                 <button
@@ -349,7 +349,7 @@ const SelectDoctor = () => {
                   <HiDownload size={30} />
                 </button>
               </div>
-              <div className="imageBox">
+              {/* <div className="imageBox">
                 <img src={frame5Overview} alt="output" style={{ margin: "0 auto" }}/>
                 <button
                   onClick={() =>
@@ -361,7 +361,7 @@ const SelectDoctor = () => {
                   className="downloadBtn">
                   <HiDownload size={30} />
                 </button>
-              </div>
+              </div> */}
             </div>
           </>
         )}
@@ -384,7 +384,7 @@ const SelectDoctor = () => {
                 {frameData.firstFrame.textField.map((value, i) => {
                   return (
                     <Text
-                      text={doctorData[value.field] || value.default}
+                      text={doctorData[value.field] || value.default }
                       fontSize={fontSize}
                       x={value.left}
                       y={value.top}
@@ -399,7 +399,7 @@ const SelectDoctor = () => {
               </Layer>
             </Stage>
           )}
-          {frameData && doctorData && frameData.dp &&
+          {/* {frameData && doctorData && frameData.dp &&
             <Stage width={frameData.dp.width} height={frameData.dp.height} style={{ zoom: "0.1" }}>
               <Layer ref={dpRef}>
               <Image
@@ -416,7 +416,7 @@ const SelectDoctor = () => {
                 />
               </Layer>
             </Stage>
-          }
+          } */}
           {frameData && doctorData && frameData.thirdFrame &&
             <Stage width={frameData.thirdFrame.width} height={frameData.thirdFrame.height} style={{ zoom: "0.1" }}>
               <Layer ref={thirdFrameRef}>
@@ -432,6 +432,22 @@ const SelectDoctor = () => {
                   width={frameData.thirdFrame.width}
                   height={frameData.thirdFrame.height}
                 />
+                {frameData.thirdFrame.textField.map((value, i) => {
+                  return (
+                    <Text
+                      text={doctorData[value.field] || value.default}
+                      fontSize={value.fontSize}
+                      x={value.left}
+                      y={value.top}
+                      width={value.width}
+                      align={value.align}
+                      key={i}
+                      lineHeight={value.lineHeight}
+                      fontFamily={value.fontFamily}
+                      fill={'white'}
+                    />
+                  );
+                })}
               </Layer>
             </Stage>
           }
@@ -453,7 +469,7 @@ const SelectDoctor = () => {
             </Layer>
           </Stage>
           }
-          {frameData && frameData.fifthFrame && doctorData &&
+          {/* {frameData && frameData.fifthFrame && doctorData &&
             <Stage width={frameData.fifthFrame.width} height={frameData.fifthFrame.height} style={{ zoom: "0.1" }}>
             <Layer ref={fifthFrameRef}>
             <Image
@@ -470,7 +486,7 @@ const SelectDoctor = () => {
               />
             </Layer>
           </Stage>
-          }
+          } */}
         </div>
       </div>
     </>

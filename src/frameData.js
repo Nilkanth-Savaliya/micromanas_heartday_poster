@@ -51,6 +51,7 @@ export const frameData = {
         top: 2100 / 2,
         width: 3440 / 2,
         lineHeight: 1.2,
+        fontFamily: 'Roboto Slab',
         default: "",
       }
     ],
@@ -85,7 +86,18 @@ export const frameData = {
     frameImage: "/dp2.png",
     width: 3509 / 2,
     height: 4962 / 2,
-    textField: [],
+    textField: [
+      {
+      field: "doctorName",
+      left: 1500 / 2,
+      top: 2440 / 2,
+      width: 2150 / 2,
+      align: "center",
+      fontSize: 50,
+      fontFamily: 'Roboto Slab',
+      default: "",
+    }
+    ],
     imageField: [
       {
         field: "image",
